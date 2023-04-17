@@ -1,0 +1,6 @@
+difference between git restore filename and git restore --staged filename
+
+git restore command will discard any local, uncommitted changes in the corresponding files and 
+restore their last committed state.
+
+However , the --staged option , the file will only be removed from the staging area .
