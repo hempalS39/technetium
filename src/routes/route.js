@@ -7,24 +7,24 @@ router.get('/test-me', function (req, res) {
     res.send('This should be working!')
 });
 
+
 //------------------------------ missing number assignment
 router.get('/sol1' , function (req,res) {
-    let arr = [1,2,3,5,6,7];
+    let arr = [1,2,3,4,5,7];
     let n =arr[arr.length-1]
     let totalSum = n*(n+1)/2
     let sum = 0;
     for(let i=0; i<arr.length; i++){
         sum += arr[i]
     }
-    console.log(totalSum , sum )
+    
     let missingNum = totalSum-sum;
-    console.log(missingNum)
 
     return res.send({ missingNum})
 })
 
 router.get('/sol2' , function (req,res) {
-    let arr = [33,34,35,37,38];
+    let arr = [33,34,36,37,38];
     // let arr = [21,22,23,24,26,27,28,29]
     let min = arr[0];
     for(let i=1; i<arr.length; i++){
@@ -34,6 +34,10 @@ router.get('/sol2' , function (req,res) {
         else return res.send({misingNum : min+1})
     }
 })
+
+
+
+
 
 //-------------------------------------- post Assignment --------------------------------
 let players =[
@@ -68,6 +72,7 @@ let players =[
 
 router.post('/players' , function (req,res) {
     let player = req.body;
+    
     for(let i=0; i<players.length; i++){
         if(players[i].name == player.name){
            return res.send({msg : "player with same name already present"})
