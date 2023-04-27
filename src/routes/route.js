@@ -1,75 +1,68 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/students/:name', function(req, res) {
-    let studentName = req.params.name
-    console.log(studentName)
-    res.send(studentName)
-})
 
-router.get("/random" , function(req, res) {
-    res.send("hi there")
-})
+ASSIGNMENT:
+// you will be given an array of persons ( i.e an array of objects )..each person will have  a {name: String , age: Number, votingStatus: true/false(Boolean)}
+// take input in query param as votingAge..and for all the people above that age, change votingStatus as true
+// also return an array consisting of only the person that can vote
 
+// WRITE A POST API TO THE ABOVE
 
-router.get("/test-api" , function(req, res) {
-    res.send("hi FunctionUp")
-})
+// take this as sample for array of persons:
 
+var persons= [
+   {
+   name: "PK",
+   age: 10,
+   votingStatus: false
+},
+{
+   name: "SK",
+   age: 20,
+   votingStatus: false
+},
+{
+   name: "AA",
+   age: 70,
+   votingStatus: false
+},
+{
+   name: "SC",
+   age: 5,
+   votingStatus: false
+},
+{
+   name: "HO",
+   age: 40,
+   votingStatus: false
+}
+]
 
-router.get("/test-api-2" , function(req, res) {
-    res.send("hi FunctionUp. This is another cool API")
-})
-
-
-router.get("/test-api-3" , function(req, res) {
-    res.send("hi FunctionUp. This is another cool API. And NOw i am bored of creating API's ")
-})
-
-
-router.get("/test-api-4" , function(req, res) {
-    res.send("hi FunctionUp. This is another cool API. And NOw i am bored of creating API's. PLZ STOP CREATING MORE API;s ")
-})
-
-
-
-router.get("/test-api-5" , function(req, res) {
-    res.send("hi FunctionUp5. This is another cool API. And NOw i am bored of creating API's. PLZ STOP CREATING MORE API;s ")
-})
-
-router.get("/test-api-6" , function(req, res) {
-    res.send({a:56, b: 45})
-})
-
-router.post("/test-post", function(req, res) {
-    res.send([ 23, 45 , 6])
-})
-
-
-router.post("/test-post-2", function(req, res) {
-    res.send(  { msg: "hi" , status: true }  )
-})
-
-router.post("/test-post-3", function(req, res) {
-    // let id = req.body.user
-    // let pwd= req.body.password
-
-    // console.log( id , pwd)
-
-    console.log( req.body )
-
-    res.send(  { msg: "hi" , status: true }  )
+router.post('/vote' , function(req , res) {
+    const age = req.query;
+    let voters = []
+    for(let i=0; i<persons.length; i++){
+        if(persons[i].age > age.votingAge){
+            persons[i].votingStatus = true;
+            voters.push(persons[i])
+        }
+    }
+    res.send({data : voters})
 })
 
 
 
-router.post("/test-post-4", function(req, res) {
-    let arr= [ 12, "functionup"]
-    let ele= req.body.element
-    arr.push(ele)
-    res.send(  { msg: arr , status: true }  )
-})
 
+
+
+
+
+// router.get('/students/:name', function(req, res) {
+//     let studentName = req.params.name
+//     console.log(studentName)
+//     res.send(studentName)
+// })
 
 
 
@@ -78,13 +71,12 @@ router.post("/test-post-4", function(req, res) {
 // params variable name  is not visible in  the url
 
 
-router.get("/wiki/:countryName", function(req, res) {
+// router.get("/wiki/:countryName", function(req, res) {
     
-    // ...
-    // hey nodejs , go and get me the data for countryName
-    res.send( {data: "something data"} )
-})
-
+//     // ...
+//     // hey nodejs , go and get me the data for countryName
+//     res.send( {data: "something data"} )
+// })
 
 
 // router.get("/wiki/india", function(req, res) {
@@ -105,13 +97,13 @@ router.get("/wiki/:countryName", function(req, res) {
 // })
 
 
-router.get("/:productName/p/:itemId", function(req, res) {
-    let product = req.params.productName
-    let itemId= req.params.itemId
-    // ...
-    // hey nodejs, go and get me the data for hte variable ( its value) product 
-    res.send( {data: product} )
-})
+// router.get("/:productName/p/:itemId", function(req, res) {
+//     let product = req.params.productName
+//     let itemId= req.params.itemId
+//     // ...
+//     // hey nodejs, go and get me the data for hte variable ( its value) product 
+//     res.send( {data: product} )
+// })
 
 // QUERY params:-
 //  use case: to make filters / searches
@@ -120,15 +112,15 @@ router.get("/:productName/p/:itemId", function(req, res) {
 
 //a get request with 2 query params
 // localhost:3000/get-query-1?myCoolVar=soemthing&xyz=functionUp
-router.get("/get-query-1", function(req, res) {
-    let data = req.query
-    let var1= data.myCoolVar
-    let var2= data.xyz
+// router.get("/get-query-1", function(req, res) {
+//     let data = req.query
+//     let var1= data.myCoolVar
+//     let var2= data.xyz
 
-    console.log( data)
+//     console.log( data)
 
-    res.send( {data: data, status: true} )
-})
+//     res.send( {data: data, status: true} )
+// })
 
 // take marks in req.query in a variable named "marks" and send "pass" if marks>40 else send "fail"
 router.get( "/get-query-2", function (req, res){
