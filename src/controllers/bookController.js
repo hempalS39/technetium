@@ -39,19 +39,18 @@ const getParticularBooks = async function (req , res) {
 
 
 const getXINRBooks = async function (req , res) {
-    // find({  $and: [{sales : {$gt: 20}}]  }) 
-    // let bookData = await BookModel.find({$or : [{prices : [{indianPrice : ["100INR" , "200INR" , "500INR"]}]}]});
-    let bookData = await BookModel.find({prices : {$0r : ["100INR" , "200INR" , "500INR"]}});
+    // {"prices.indianPrice" :{$in:["100INR","200INR","500INR"]}}
+    let bookData = await BookModel.find({"prices.indianPrice" : {$in : ["100INR" , "200INR" , "500INR"]}});
 
 
     res.send({msg : bookData})
 }
 
 
-// getRandomBooks - returns books that are available in stock or have more than 500 pages
+// getRandomBooks - returns books that are available in stock and have more than 500 pages
 
 const getRandomBooks = async function (req , res) {
-    let randonBooks = await BookModel.find({stockAvailable : true, totalPages: { $gt:  500 }  })
+    let randonBooks = await BookModel.find({stockAvailable : true , totalPages: { $gt:  500 }})
 
     res.send({msg : randonBooks})
 }
@@ -67,6 +66,21 @@ module.exports.getRandomBooks = getRandomBooks;
 
 
 
+
+
+
+
+
+// const getXINRBooks = async function (req , res) {
+//     let allBooks = await BookModel.find({"prices.indianPrice" :{$in:["100INR","200INR","500INR"]}})
+//     res.send({msg : allBooks})
+// }
+
+
+// const getRandomBooks = async function (req, res) {
+//     let randonBook = await BookModel.find({$or: [ {stockAvailable: true}, {pages: {gt:500}}]})
+//     res.send({msg : randonBook})
+// }
 
 
 // const getBooksData = async function (req, res) {
