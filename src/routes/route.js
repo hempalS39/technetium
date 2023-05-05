@@ -50,7 +50,11 @@ router.post("/createBook", BookController.createBook  )
 
 router.get("/basicRoute", commonMW.mid1, commonMW.mid2, commonMW.mid3, commonMW.mid4, UserController.basicCode)
 
-
+router.get('/basic' ,  function (req , res , next) {
+    console.log('this is basic route-new')
+    // res.send({msg : "basic route"})
+    next()
+})
 
 // router.get("/basicRoute2", commonMW.mid1, UserController.basicCode2)
 // router.get("/basicRoute3", commonMW.mid2, UserController.basicCode3)
