@@ -10,10 +10,10 @@ router.post("/users", userController.createUser )
 
 router.post("/login", userController.loginUser)
 
-router.get("/users/:userId",authentication.authentication, userController.getUserData)
+router.get("/users/:userId",authentication.authentication,authentication.authorise, userController.getUserData)
 
-router.put("/users/:userId",authentication.authentication, userController.updateUser)
+router.put("/users/:userId",authentication.authentication,authentication.authorise, userController.updateUser)
 
-router.delete("/users/:userId" ,authentication.authentication, userController.deleteUser)
+router.delete("/users/:userId" ,authentication.authentication,authentication.authorise, userController.deleteUser)
 
 module.exports = router;

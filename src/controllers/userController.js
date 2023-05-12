@@ -10,12 +10,6 @@ const createUser = async function (req, res) {
 };
 
 
- // Once the login is successful, create the jwt token with sign function
-  // Sign function has 2 inputs:
-  // Input 1 is the payload or the object containing data to be set in token
-  // The decision about what data to put in token depends on the business requirement
-  // Input 2 is the secret (This is basically a fixed value only set at the server. This value should be hard to guess)
-  // The same secret will be used to decode tokens 
 
 
 const loginUser = async function (req, res) {
@@ -41,26 +35,20 @@ const loginUser = async function (req, res) {
 
 
 const getUserData = async function (req, res) {
-  // let token = req.headers["x-Auth-token"];
-  // if (!token) token = req.headers["x-auth-token"];
 
-  //If no token is present in the request header return error. This means the user is not logged in.
-  // if (!token) return res.send({ status: false, msg: "token must be present" });
+//   let token = req.headers["x-auth-token"]
+//    if (!token) return res.send({ status: false, msg: "token must be present in the request header" })
 
-  // console.log(token);
+//     let decodedToken = jwt.verify(token, "functionup-technetium-secret-key");
+//     if (!decodedToken) return res.send({ status: false, msg: "token is invalid" });
+//    //userId for which the request is made. 
+//    let userToBeModified = req.params.userId
+//    //userId for the logged-in user
+//    let userLoggedIn = decodedToken.userId
 
-  // If a token is present then decode the token with verify function
-  // verify takes two inputs:
-  // Input 1 is the token to be decoded
-  // Input 2 is the same secret with which the token was generated
-  // Check the value of the decoded token yourself
-
-  // Decoding requires the secret again. 
-  // A token can only be decoded successfully if the same secret was used to create(sign) that token.
-  // And because this token is only known to the server, it can be assumed that if a token is decoded at server then this token must have been issued by the same server in past.
-  // let decodedToken = jwt.verify(token, "functionup-technetium-secret-key");
-  // if (!decodedToken) return res.send({ status: false, msg: "token is invalid" });
-
+//    //userId comparision to check if the logged-in user is requesting for their own data
+//    if (userToBeModified != userLoggedIn) return res.send({ status: false, msg: 'User logged is not allowed to modify the requested users data' })
+   
   let userId = req.params.userId;
   let userDetails = await userModel.findById(userId);
   if (!userDetails) return res.send({ status: false, msg: "No such user exists" });
