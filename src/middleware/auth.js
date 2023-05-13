@@ -13,23 +13,27 @@ function authentication (req , res , next) {
     next()
    } 
    catch (error) {
-        res.send({status : false , msg : error})
+        res.status(500).send({status : false , msg : error})
    }
 }
 
 const authorise = function (req, res, next) {
-   let token = req.headers["x-auth-token"]
-   let decodedToken = jwt.verify(token, "functionup-technetium-secret-key")
+   try {
+      let token = req.headers["x-auth-token"]
+      let decodedToken = jwt.verify(token, "functionup-technetium-secret-key")
 
-   //userId for which the request is made. 
-   let userToBeModified = req.params.userId
-   //userId for the logged-in user
-   let userLoggedIn = decodedToken.userId
+      //userId for which the request is made. 
+      let userToBeModified = req.params.userId
+      //userId for the logged-in user
+      let userLoggedIn = decodedToken.userId
 
-   //userId comparision to check if the logged-in user is requesting for their own data
-   if (userToBeModified != userLoggedIn) return res.send({ status: false, msg: 'User logged is not allowed to modify the requested users data' })
-   
-   next()
+      //userId comparision to check if the logged-in user is requesting for their own data
+      if (userToBeModified != userLoggedIn) return res.send({ status: false, msg: 'User logged is not allowed to modify the requested users data' })
+
+      next()
+   } catch (error) {
+      res.status(500).send({ status: false, msg: error })
+   }
 }
 
 module.exports.authentication = authentication;

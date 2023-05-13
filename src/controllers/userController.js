@@ -3,36 +3,43 @@ const userModel = require("../models/userModel");
 
 
 const createUser = async function (req, res) {
-  let data = req.body;
-  if(!data) return res.send({status : false , msg : "pls provide user details"})
-  let savedData = await userModel.create(data);
-  res.send({ msg: savedData });
+    try {
+        let data = req.body;
+        if (!data) return res.send({ status: false, msg: "pls provide user details" })
+        let savedData = await userModel.create(data);
+        res.status(201).send({ msg: savedData });
+    } catch (error) {
+        res.status(500).send({ status: false, msg: error })
+    }
 };
-
 
 
 
 const loginUser = async function (req, res) {
-  let userName = req.body.emailId;
-  let password = req.body.password;
+    try {
+        let userName = req.body.emailId;
+        let password = req.body.password;
 
-  let user = await userModel.findOne({ emailId: userName, password: password });
-  if (!user)return res.send({ status: false,msg: "username or password is  incorerct"});
+        let user = await userModel.findOne({ emailId: userName, password: password });
+        if (!user) return res.send({ status: false, msg: "username or password is  incorerct" });
 
- // creating token
-  let token = jwt.sign(
-    {
-      userId: user._id.toString(),
-      batch: "technetium",
-      organisation: "FunctionUp",
-    },
-    "functionup-technetium-secret-key"
-  );
-  res.setHeader("x-auth-token", token);
-  res.send({ status: true, token: token });
+        // creating token
+        let token = jwt.sign(
+            {
+                userId: user._id.toString(),
+                batch: "technetium",
+                organisation: "FunctionUp",
+            },
+            "functionup-technetium-secret-key"
+        );
+        res.setHeader("x-auth-token", token);
+        res.send({ status: true, token: token });
+    } catch (error) {
+        res.status(500).send({ status: false, msg: error })
+    }
 };
 
-
+  
 
 const getUserData = async function (req, res) {
 
@@ -56,47 +63,49 @@ const getUserData = async function (req, res) {
   res.send({ status: true, data: userDetails });
 };
 
+
+
 const updateUser = async function (req, res) {
 
- try {
-  // let token = req.headers["x-Auth-token"];
-  // if (!token) token = req.headers["x-auth-token"];
-  // if (!token) return res.send({ status: false, msg: "token must be present" });
-
-  // let decodedToken = jwt.verify(token, "functionup-technetium-secret-key");
-  // if (!decodedToken) return res.send({ status: false, msg: "token is invalid" });
-
-  let userId = req.params.userId;
-  let user = await userModel.findById(userId);
-  if (!user) { return res.send("No such user exists")}
-
-  let userData = req.body;
-  let updatedUser = await userModel.findOneAndUpdate({ _id: userId }, userData , {new : true});
-  res.send({ status: true, data: updatedUser });
- } 
- catch (error) {
-    res.send({status : false , mag : error})
- }
-};
-
-
-const deleteUser = async function (req , res) {
   try {
     // let token = req.headers["x-Auth-token"];
     // if (!token) token = req.headers["x-auth-token"];
     // if (!token) return res.send({ status: false, msg: "token must be present" });
-  
+
     // let decodedToken = jwt.verify(token, "functionup-technetium-secret-key");
     // if (!decodedToken) return res.send({ status: false, msg: "token is invalid" });
-  
+
     let userId = req.params.userId;
     let user = await userModel.findById(userId);
-    if (!user) { return res.send("No such user exists")}
-  
-    let updatedUser = await userModel.findOneAndUpdate({ _id: userId }, {isDeleted : true} , {new : true});
+    if (!user) { return res.send("No such user exists") }
+
+    let userData = req.body;
+    let updatedUser = await userModel.findOneAndUpdate({ _id: userId }, userData, { new: true });
+    res.status(200).send({ status: true, data: updatedUser });
+  }
+  catch (error) {
+    res.status(500).send({ status: false, mag: error })
+  }
+};
+
+
+const deleteUser = async function (req, res) {
+  try {
+    // let token = req.headers["x-Auth-token"];
+    // if (!token) token = req.headers["x-auth-token"];
+    // if (!token) return res.send({ status: false, msg: "token must be present" });
+
+    // let decodedToken = jwt.verify(token, "functionup-technetium-secret-key");
+    // if (!decodedToken) return res.send({ status: false, msg: "token is invalid" });
+
+    let userId = req.params.userId;
+    let user = await userModel.findById(userId);
+    if (!user) { return res.send("No such user exists") }
+
+    let updatedUser = await userModel.findOneAndUpdate({ _id: userId }, { isDeleted: true }, { new: true });
     res.send({ status: true, data: "User deleted successfully" });
   } catch (error) {
-    res.send({status : false , msg : error})
+    res.status(500).send({ status: false, msg: error })
   }
 }
 
