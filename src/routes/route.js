@@ -34,7 +34,10 @@ router.post("/createBook", BookController.createBook  )
 //         res.send ("Please login or register")
 //     }
 // }
-
+// let currentDate = new Date().toLocaleString()
+// let IP = req.ip 
+// let currentRoute = req.originalUrl
+// console.log(currentDate ," ", IP ," ", currentRoute)
 // // e.g. restricted and open-to-all API's can be handled like below now:
 // router.get('/homePage', mid1, UserController.feeds)
 // router.get('/profileDetails', mid1, UserController.profileDetails)
@@ -48,7 +51,7 @@ router.post("/createBook", BookController.createBook  )
 
 
 
-router.get("/basicRoute", commonMW.mid1, commonMW.mid2, commonMW.mid3, commonMW.mid4, UserController.basicCode)
+router.get("/basicRoute", UserController.basicCode)
 
 router.get('/basic' ,  function (req , res , next) {
     console.log('this is basic route-new')

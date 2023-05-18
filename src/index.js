@@ -7,7 +7,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
+mongoose.set('strictQuery', true);
 mongoose.connect("mongodb+srv://functionup-cohort:G0Loxqc9wFEGyEeJ@cluster0.rzotr.mongodb.net/Pritesh8769811-DB?retryWrites=true&w=majority", {
     useNewUrlParser: true
 })
@@ -16,7 +16,11 @@ mongoose.connect("mongodb+srv://functionup-cohort:G0Loxqc9wFEGyEeJ@cluster0.rzot
 
 app.use (
     function (req, res, next) {
-        console.log ("inside GLOBAL MW");
+        // console.log ("inside GLOBAL MW");
+        let currentDate = new Date().toLocaleString();
+        let ip = req.ip;
+        let requestedRoute = req.originalUrl;
+        console.log(currentDate+" "+ ip +" "+requestedRoute )
         next();
   }
   );
