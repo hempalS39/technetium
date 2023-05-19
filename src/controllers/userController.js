@@ -3,6 +3,25 @@ const UserModel= require("../models/userModel")
 
 
 
+const createUser = async function (req , res) {
+    let requestHeader = req.headers["isFreeAppUser"];
+    if(!requestHeader) requestHeader = req.headers["isfreeappuser"];
+
+    let data = req.body;
+    data["isFreeAppUser"] = requestHeader;
+
+    const userData = await UserModel.create(data);
+
+    return res.status(201).send({status : true , userData : userData})
+}
+
+
+
+
+
+
+
+
 
 const basicCode= async function(req, res) {
     
@@ -26,29 +45,6 @@ const basicCode= async function(req, res) {
     
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const createUser= async function (req, res) {
-    let data= req.body
-    let savedData= await UserModel.create(data)
-    res.send({msg: savedData})
-}
 
 const getUsersData= async function (req, res) {
     let allUsers= await UserModel.find()

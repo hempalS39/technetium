@@ -26,6 +26,7 @@ TOPIC: Middleware2
 	isFreeAppUser: false // Default false value.
 }
 ```
++
 
 - Your product document should look like this
 ```
